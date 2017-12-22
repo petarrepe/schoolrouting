@@ -10,6 +10,8 @@ namespace SchoolRouting
     {
         static void Main(string[] args)
         {
+            var test = new Algorithms.GurobiExample();
+            Console.Write(test.Example());
         }
     }
 }

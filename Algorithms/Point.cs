@@ -1,4 +1,4 @@
-﻿namespace SchoolRouting
+﻿namespace Algorithms
 {
     public class Point
     {

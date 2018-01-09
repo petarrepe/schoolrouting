@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Algorithms;
 
 namespace SchoolRouting
 {
@@ -15,7 +16,9 @@ namespace SchoolRouting
             {
                 instancesList.Add(InputService.Parse(i));
             }
-
+            //initial solution (clustering + teograf)
+            //simulated annealing
+       
             var test = new Algorithms.GurobiExample();
             Console.Write(test.Example());
         }

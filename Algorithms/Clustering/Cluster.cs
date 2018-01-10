@@ -23,7 +23,7 @@ namespace Algorithms
             return StudentsInCluster.Count;
         }
 
-        internal bool HasStudent(int studentIndex)
+        public bool HasStudent(int studentIndex)
         {
             return StudentsInCluster.Contains(studentIndex);
         }

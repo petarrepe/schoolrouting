@@ -8,7 +8,7 @@ namespace Algorithms
 {
     public class Solution
     {
-        List<List<int>> busTours =new List<List<int>>();
-        List<Cluster> clusterList= new List<Cluster>();
+        public List<List<int>> busTours =new List<List<int>>();
+        public List<Cluster> clusterList= new List<Cluster>();
     }
 }

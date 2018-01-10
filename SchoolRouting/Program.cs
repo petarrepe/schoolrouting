@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Algorithms;
+using Algorithms.Clustering;
 
 namespace SchoolRouting
 {
@@ -18,7 +17,12 @@ namespace SchoolRouting
             }
             //initial solution (clustering + teograf)
             //simulated annealing
-       
+
+            
+            var clusterer = new RadiusCluster();
+            clusterer.Cluster(instancesList[9]);
+
+
             var test = new Algorithms.GurobiExample();
             Console.Write(test.Example());
         }

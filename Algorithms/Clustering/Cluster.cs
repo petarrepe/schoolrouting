@@ -1,18 +1,31 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Algorithms
 {
     public class Cluster
     {
-        private List<int> StudentsInCluster { get; set; }= new List<int>();
+        private List<int> StudentsInCluster { get; set; }
+        public int StopIndex { get; set; }
+
+        public Cluster(int stopIndex = -1)
+        {
+            this.StudentsInCluster = new List<int>();
+            this.StopIndex = stopIndex;
+        }
 
         internal void AddStudent(int studentIndex)
         {
             StudentsInCluster.Add(studentIndex);
+        }
+
+        internal int Count()
+        {
+            return StudentsInCluster.Count;
+        }
+
+        internal bool HasStudent(int studentIndex)
+        {
+            return StudentsInCluster.Contains(studentIndex);
         }
     }
 }

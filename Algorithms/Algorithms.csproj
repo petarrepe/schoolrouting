@@ -45,8 +45,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Clustering\Cluster.cs" />
+    <Compile Include="Clustering\KMeansClusterer.cs" />
+    <Compile Include="Clustering\IClusterer.cs" />
+    <Compile Include="Clustering\RadiusCluster.cs" />
     <Compile Include="ExtensionMethods.cs" />
     <Compile Include="GurobiExample.cs" />
+    <Compile Include="Instance.cs" />
     <Compile Include="Point.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">

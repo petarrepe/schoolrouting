@@ -8,27 +8,29 @@ namespace SchoolRouting
 {
     internal class OutputService
     {
+        //na nekoliko mjesta postoji +1, to je zato jer je rješenje 1-index, a problem je rješen u 0-index...
         internal static void OutputSolution(Solution solution, int instanceNumber,string elapsedTime, int numberOfStudents)
         {
-            using (FileStream fs = File.Create("res-" + elapsedTime + "-" + instanceNumber + ".txt"))
+            using (FileStream fs = File.Create("res-" + elapsedTime + "-sbr" + instanceNumber + ".txt"))
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (var busRoute in solution.busTours)
+                foreach (var busRoute in solution.BusTours)
                 {
                     foreach (var station in busRoute)
                     {
-                        sb.Append(station + " ");
+                        sb.Append(station+1 + " ");
                     }
                     sb.Remove(sb.Length - 1, 1);//remove zadnjeg whitespacea
-                    sb.Append("\n");
+                    sb.Append(Environment.NewLine);
                 }
-                sb.Append("\n");
+
+                sb.Append(Environment.NewLine);
 
                 for (int i = 0; i < numberOfStudents; i++)
                 {
-                    var stopIndex = solution.clusterList.First(t => t.HasStudent(i) == true).StopIndex;
+                    var stopIndex = solution.ClusterList.First(t => t.HasStudent(i) == true).StopIndex;
 
-                    sb.AppendLine(i.ToString() + " "+stopIndex);
+                    sb.AppendLine((i+1).ToString() + " "+(stopIndex+1));
                 }
 
                 Byte[] info = new UTF8Encoding(true).GetBytes(sb.ToString());

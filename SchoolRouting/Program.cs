@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Timers;
 using Algorithms;
 using Algorithms.Clustering;
+using Algorithms.Greedy;
 
 namespace SchoolRouting
 {
@@ -12,6 +13,8 @@ namespace SchoolRouting
         private static Solution currentSolution;
         private static int instanceNumber;
         private static Instance currentInstance;
+        private static Timer timerOneMinute;
+        private static Timer timerFiveMinutes;
 
         static void Main(string[] args)
         {
@@ -24,24 +27,30 @@ namespace SchoolRouting
             }
             sw.Stop();
 
-            foreach (var instance in instancesList)
+            for (int i=0;i< instancesList.Count;i++)
             {
-                Timer timerOneMinute = new Timer();
-                timerOneMinute.Interval = 60000 - sw.ElapsedMilliseconds;
+                currentInstance = instancesList[i];
+                instanceNumber = i+1;
+
+                timerOneMinute = new Timer();
+                timerOneMinute.Interval = 60000 - sw.ElapsedMilliseconds;     
                 timerOneMinute.AutoReset = false;
                 timerOneMinute.Elapsed += new ElapsedEventHandler(TimerElapsedOneMinute);
                 timerOneMinute.Start();
 
-                Timer timerFiveMinutes = new Timer();
-                timerOneMinute.Interval = 300000 - sw.ElapsedMilliseconds;
-                timerOneMinute.AutoReset = false;
-                timerOneMinute.Elapsed += new ElapsedEventHandler(TimerElapsedFiveMinutes);
-                timerOneMinute.Start();
+                timerFiveMinutes = new Timer();
+                timerFiveMinutes.Interval = 300000 - sw.ElapsedMilliseconds;
+                timerFiveMinutes.AutoReset = false;
+                timerFiveMinutes.Elapsed += new ElapsedEventHandler(TimerElapsedFiveMinutes);
+                timerFiveMinutes.Start();
 
 
                 var clusterer = new RadiusCluster();
                 var resultCluster = clusterer.Cluster(instancesList[0]);
-                //Solution initialSolution = NekiKurac();
+
+                Solution initialSolution = InitialSolution.Find(resultCluster, instancesList[i].Capacity);
+                currentSolution = initialSolution;
+
                 do
                 {
                     //simulated annealing(solution)
@@ -49,9 +58,10 @@ namespace SchoolRouting
                 } while (true); //dok nije gotov algoritam
 
                 var test = new Algorithms.GurobiExample();
-                Console.Write(test.Example());
 
                 OutputService.OutputSolution(currentSolution, instanceNumber, "ne", (int)currentInstance.Students);
+                timerOneMinute.Dispose();
+                timerFiveMinutes.Dispose();
             }
         }
 

@@ -44,7 +44,7 @@ namespace Algorithms
 
                 for (int j = 0; j < clusters.Count; j++)
                 {
-
+                    var debug = clusters[2];
                     if (clusters[j].HasStudent(i))
                     {
                         stopsList.Add(j);

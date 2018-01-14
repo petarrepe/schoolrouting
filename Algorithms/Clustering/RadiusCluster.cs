@@ -10,15 +10,21 @@ namespace Algorithms.Clustering
         {
             List<Cluster> initial = new List<Cluster>();
 
-            foreach (var value in instance.StopsCoordinates)
+            for (int z=0; z<instance.StopsCoordinates.Count;z++)
             {
                 var cluster = new Cluster();
-                var center = value.Value;
+                var stop = instance.StopsCoordinates[z];
 
+                //debug
+                var stud = instance.StudentCoordinates[2];
+                //var stop = instance.StopsCoordinates[43];
+                var dist = Util.EuclidianDistance(stud, stop);
+                //!
                 var res = instance.StudentCoordinates
-                    .Select(x => new Point(x.X, x.Y))
-                    .Where(x => x.EuclidianDistance(center) < instance.MaximumWalk)
+                    .Select(x => x)
+                    .Where(x => x.EuclidianDistance(stop) < instance.MaximumWalk)
                     .ToList();
+
 
                 for (int i = 0; i < res.Count; i++)
                 {
@@ -26,9 +32,12 @@ namespace Algorithms.Clustering
                 }
                 initial.Add(cluster);
             }
-
+            //do ovdje je dobro
             var studentsAndAvailableStops = instance.CalculateAvailableStops(initial); //index studenta , lista stanica na koje može doći
-
+            // ovdje nije je dobro
+            //debug
+            var debug  = studentsAndAvailableStops[2];
+            //!
             var result = new List<Cluster>((int)instance.Stops);
 
             for (int i = 0; i < instance.Students; i++)

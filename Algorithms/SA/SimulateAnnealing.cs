@@ -2,14 +2,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Algorithms.SA
 {
     public class SimulateAnnealing
     {
-        
+
         public Solution StartAnnealing(double temperature, double epsilon, double alpha, List<Cluster> resultCluster, Instance instance, Solution initialSolution)
         {
 
@@ -17,8 +15,8 @@ namespace Algorithms.SA
             Random random = new Random();
             double xProbability;
             Solution bestSolution = initialSolution;
+            Solution finalSolution = initialSolution;
             Solution nextSolution = initialSolution;
-            int iteration = 0;
             int distance = 0;//cost function
             delta = CostFunction(bestSolution, instance);
 
@@ -26,30 +24,34 @@ namespace Algorithms.SA
             {
                 nextSolution = Neighbourhood(bestSolution, resultCluster, instance);//->izracunaj susjeda() S od trenutnog S0
 
+                if (Solution.IsInfeasible(nextSolution, instance.Capacity)==true) continue;
+
                 delta = CostFunction(nextSolution, instance) - CostFunction(bestSolution, instance);//-> delta = f(S) - f(S0) 
-                //->check is S feasible
+                
+
                 if (delta < 0)
                 {
                     bestSolution = nextSolution;//S0 = S;
+                    finalSolution = nextSolution;
                 }
                 else
-                {                    
+                {
                     xProbability = random.NextDouble();// generate ,random x e(0,1)
                     if (xProbability < Math.Exp(-delta / temperature))
                     {
                         bestSolution = nextSolution;//S0 = S;
                     }
-                    else 
+                    else
                     {
-                     //reject S   
+                        //reject S   
                     }
 
                 }
                 temperature = alpha * temperature;//proces hladenja
             }
-            return bestSolution;
+            return finalSolution;
         }
-        
+
         public static Solution Neighbourhood(Solution solution, List<Cluster> cluster, Instance instanca)
         {
             Random random = new Random();
@@ -59,8 +61,8 @@ namespace Algorithms.SA
             {
                 case 1: return OnePointMove(solution, cluster, instanca);
                 case 2: return TwoPointMove(solution, cluster);
-                case 3: return TwoOptMove(solution, cluster);
-               // case 4: return CrossExchange(solution, cluster);
+                //case 3: return TwoOptMove(solution, cluster);
+                case 4: return CrossExchange(solution, cluster);
                 default: return solution;
             }
             return solution;
@@ -75,14 +77,14 @@ namespace Algorithms.SA
             int elementsRoute2 = solution.BusTours.ElementAt(randomRouteIndex1).Count(); //broj stanica druge rute
 
 
-            if (elementsRoute1>=2 && elementsRoute2>=2 && (randomRouteIndex1!= randomRouteIndex2))//minimalno 2 stanice po ruti inace se ne moze traziti rjesenje i rute trebaju biti razlicite
+            if (elementsRoute1 >= 2 && elementsRoute2 >= 2 && (randomRouteIndex1 != randomRouteIndex2))//minimalno 2 stanice po ruti inace se ne moze traziti rjesenje i rute trebaju biti razlicite
             {
                 List<int> route1 = new List<int>();
                 List<int> route2 = new List<int>();
                 int x = random.Next(elementsRoute1 - 1);//index elementa za mijenjanje
                 int y = random.Next(elementsRoute2 - 1);//index elementa za mijenjanje
                 int tempStation1 = solution.BusTours.ElementAt(randomRouteIndex1).ElementAt(x);
-                int tempStation2 = solution.BusTours.ElementAt(randomRouteIndex1).ElementAt(x+1);
+                int tempStation2 = solution.BusTours.ElementAt(randomRouteIndex1).ElementAt(x + 1);
 
                 for (int j = 0; j < elementsRoute1; j++)
                 {
@@ -92,7 +94,7 @@ namespace Algorithms.SA
                     }
                     else if (j == (x + 1))
                     {
-                        route1.Add(solution.BusTours.ElementAt(randomRouteIndex2).ElementAt(y+1));
+                        route1.Add(solution.BusTours.ElementAt(randomRouteIndex2).ElementAt(y + 1));
                     }
                     else
                     {
@@ -132,11 +134,11 @@ namespace Algorithms.SA
             int randomRouteIndex = random.Next(solution.BusTours.Count()); //izaberi random rutu
             int randomBusStopIndex = random.Next(solution.BusTours.ElementAt(randomRouteIndex).Count());//izaberi random index jedne od stanica na random ruti
             int randomStop = solution.BusTours.ElementAt(randomRouteIndex).ElementAt(randomBusStopIndex);//odabran random ruta i u njoj random stanica
-            //int studentsInCluster = solution.ClusterList.ElementAt(randomStop).Count(); //broj studenata na toj stanici koju mijenjamo
-                        
+                                                                                                         //int studentsInCluster = solution.ClusterList.ElementAt(randomStop).Count(); //broj studenata na toj stanici koju mijenjamo
+
             int studentsInCluster = cluster.Find(t => t.StopIndex == randomStop).Count();
 
-            int busCapacity = (int ) instanca.Capacity;
+            int busCapacity = (int)instanca.Capacity;
             int studentsOnRoute = 0;
 
             foreach (List<int> route in solution.BusTours)
@@ -145,7 +147,7 @@ namespace Algorithms.SA
                 {
                     foreach (int busStation in route)//zbrajanje ukupno studenata na svakoj ruti
                     {
-                        studentsOnRoute = + cluster.Find(t => t.StopIndex == randomStop).Count();
+                        studentsOnRoute = +cluster.Find(t => t.StopIndex == randomStop).Count();
                     }
                     if (studentsOnRoute + studentsInCluster < busCapacity)
                     {
@@ -222,10 +224,10 @@ namespace Algorithms.SA
             int beta = 1;
             double totalSolutionDistance = 0;
             Point schoolCoordinates = instanca.SchoolCoordinates;
-            Point previousPoint = new Point(0,0);
+            Point previousPoint = new Point(0, 0);
             previousPoint = schoolCoordinates;
 
-            foreach (List<int> route in temporarySolution.BusTours) 
+            foreach (List<int> route in temporarySolution.BusTours)
             {
                 foreach (int busStation in route)
                 {
@@ -236,7 +238,7 @@ namespace Algorithms.SA
                 previousPoint = schoolCoordinates;
             }
 
-            return beta*totalSolutionDistance; //alpha*temporarySolution.BusTours.Count()   //racuna se broj ruta po solutionu i ukupna duljina. Naglasak je na duljini ruta
+            return beta * totalSolutionDistance; //alpha*temporarySolution.BusTours.Count()   //racuna se broj ruta po solutionu i ukupna duljina. Naglasak je na duljini ruta
         }
 
         private static int max(int a, int b)

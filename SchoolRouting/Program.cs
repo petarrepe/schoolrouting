@@ -22,7 +22,7 @@ namespace SchoolRouting
             Stopwatch sw = Stopwatch.StartNew();
             List<Instance> instancesList = new List<Instance>();
 
-            for (int i = 9; i < 11; i++)
+            for (int i = 0; i < 11; i++)
             {
                 instancesList.Add(InputService.Parse(i));
             }

@@ -5,6 +5,7 @@ using System.Timers;
 using Algorithms;
 using Algorithms.Clustering;
 using Algorithms.Greedy;
+using Algorithms.SA;
 
 namespace SchoolRouting
 {
@@ -21,7 +22,7 @@ namespace SchoolRouting
             Stopwatch sw = Stopwatch.StartNew();
             List<Instance> instancesList = new List<Instance>();
 
-            for (int i = 1; i < 11; i++)
+            for (int i = 9; i < 11; i++)
             {
                 instancesList.Add(InputService.Parse(i));
             }
@@ -51,13 +52,14 @@ namespace SchoolRouting
                 Solution initialSolution = InitialSolution.Find(resultCluster, instancesList[i].Capacity);
                 currentSolution = initialSolution;
 
-                do
-                {
-                    //simulated annealing(solution)
 
-                } while (true); //dok nije gotov algoritam
+                SimulateAnnealing annealing = new SimulateAnnealing();
+                currentSolution = annealing.StartAnnealing(400, 0.001, 0.999, resultCluster, currentInstance, initialSolution);
 
-                var test = new Algorithms.GurobiExample();
+                
+               
+
+               var test = new Algorithms.GurobiExample();
 
                 OutputService.OutputSolution(currentSolution, instanceNumber, "ne", (int)currentInstance.Students);
                 timerOneMinute.Dispose();

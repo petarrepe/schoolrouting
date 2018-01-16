@@ -49,6 +49,7 @@
     <Compile Include="Clustering\IClusterer.cs" />
     <Compile Include="Clustering\RadiusCluster.cs" />
     <Compile Include="Greedy\InitialSolution.cs" />
+    <Compile Include="SA\SimulateAnnealing.cs" />
     <Compile Include="Utils\ExtensionMethods.cs" />
     <Compile Include="LinearProgramming\GurobiExample.cs" />
     <Compile Include="Data Structures\Instance.cs" />

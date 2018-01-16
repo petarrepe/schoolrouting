@@ -26,7 +26,7 @@ namespace SchoolRouting
 
                 sb.Append(Environment.NewLine);
 
-                for (int i = 0; i < numberOfStudents; i++)
+                for (int i = 0; i < 400; i++)
                 {
                     var stopIndex = solution.ClusterList.First(t => t.HasStudent(i) == true).StopIndex;
 

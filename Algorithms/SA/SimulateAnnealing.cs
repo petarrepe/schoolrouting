@@ -61,11 +61,10 @@ namespace Algorithms.SA
             {
                 case 1: return OnePointMove(solution, cluster, instanca);
                 case 2: return TwoPointMove(solution, cluster);
-                //case 3: return TwoOptMove(solution, cluster);
+                case 3: return TwoOptMove(solution, cluster);
                 case 4: return CrossExchange(solution, cluster);
                 default: return solution;
             }
-            return solution;
         }
 
         private static Solution CrossExchange(Solution solution, List<Cluster> cluster)
@@ -74,7 +73,7 @@ namespace Algorithms.SA
             int randomRouteIndex1 = random.Next(solution.BusTours.Count()); //odaberi prvu rutu
             int randomRouteIndex2 = random.Next(solution.BusTours.Count()); //odaberi drugu random rutu
             int elementsRoute1 = solution.BusTours.ElementAt(randomRouteIndex1).Count();//broj stanica prve rute
-            int elementsRoute2 = solution.BusTours.ElementAt(randomRouteIndex1).Count(); //broj stanica druge rute
+            int elementsRoute2 = solution.BusTours.ElementAt(randomRouteIndex2).Count(); //broj stanica druge rute
 
 
             if (elementsRoute1 >= 2 && elementsRoute2 >= 2 && (randomRouteIndex1 != randomRouteIndex2))//minimalno 2 stanice po ruti inace se ne moze traziti rjesenje i rute trebaju biti razlicite
@@ -133,6 +132,16 @@ namespace Algorithms.SA
             Random random = new Random();
             int randomRouteIndex = random.Next(solution.BusTours.Count()); //izaberi random rutu
             int randomBusStopIndex = random.Next(solution.BusTours.ElementAt(randomRouteIndex).Count());//izaberi random index jedne od stanica na random ruti
+            while (solution.BusTours.ElementAt(randomRouteIndex).Count == 1)
+            {
+                if (solution.BusTours.Count(t => t.Count > 1) < 2)//ako samo jedna ima više od 1 postaje onda se može dogoditi tura sa 0 stanica...ovo nije opet najsretnije jer se algo može malo zaglaviti dok ne nađe baš taj random broj koji ima više tura
+                {
+                    return solution;
+                }
+                randomRouteIndex = random.Next(solution.BusTours.Count); //izaberi random rutu, ali ne onu koja ima jednu postaju
+            }
+
+            randomBusStopIndex = random.Next(solution.BusTours.ElementAt(randomRouteIndex).Count);
             int randomStop = solution.BusTours.ElementAt(randomRouteIndex).ElementAt(randomBusStopIndex);//odabran random ruta i u njoj random stanica
                                                                                                          //int studentsInCluster = solution.ClusterList.ElementAt(randomStop).Count(); //broj studenata na toj stanici koju mijenjamo
 
@@ -147,7 +156,7 @@ namespace Algorithms.SA
                 {
                     foreach (int busStation in route)//zbrajanje ukupno studenata na svakoj ruti
                     {
-                        studentsOnRoute = +cluster.Find(t => t.StopIndex == randomStop).Count();
+                        studentsOnRoute += cluster.Find(t => t.StopIndex == busStation).Count();
                     }
                     if (studentsOnRoute + studentsInCluster < busCapacity)
                     {

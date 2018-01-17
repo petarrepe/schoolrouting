@@ -45,7 +45,7 @@ namespace SchoolRouting
                 timerFiveMinutes.AutoReset = false;
                 timerFiveMinutes.Elapsed += new ElapsedEventHandler(TimerElapsedFiveMinutes);
                 timerFiveMinutes.Start();
-
+                isDisposed = false;
 
                 var clusterer = new RadiusCluster();
                 var resultCluster = clusterer.Cluster(instancesList[i]);
@@ -70,16 +70,12 @@ namespace SchoolRouting
         public static void TimerElapsedOneMinute(object sender, EventArgs e)
         {
             OutputService.OutputSolution(currentSolution, instanceNumber, "1m", (int)currentInstance.Students);
-            timerOneMinute.Dispose();
-
-            isDisposed = true;
         }
 
         public static void TimerElapsedFiveMinutes(object sender, EventArgs e)
         {
             OutputService.OutputSolution(currentSolution, instanceNumber, "5m", (int)currentInstance.Students);
-
-            timerFiveMinutes.Dispose();
+            isDisposed = true;
         }
     }
 }

@@ -48,7 +48,7 @@ namespace SchoolRouting
 
 
                 var clusterer = new RadiusCluster();
-                var resultCluster = clusterer.Cluster(instancesList[0]);
+                var resultCluster = clusterer.Cluster(instancesList[i]);
 
                 Solution initialSolution = InitialSolution.Find(resultCluster, instancesList[i].Capacity);
                 currentSolution = initialSolution;

@@ -22,11 +22,11 @@ namespace Algorithms.SA
             
             while (temperature > epsilon)
             {
-                Console.WriteLine("ajmo");
+               
                 nextSolution = Neighbourhood(bestSolution, resultCluster, instance);//->izracunaj susjeda() S od trenutnog S0
-                Console.WriteLine("pokusaj");
-                if (Solution.IsInfeasible(nextSolution, instance.Capacity)==true) continue;
-                Console.WriteLine("prosloooooooooo");
+                
+                if (Solution.IsInfeasible(nextSolution, instance.Capacity)==true) continue;//
+                
                 delta = CostFunction(nextSolution, instance) - CostFunction(bestSolution, instance);//-> delta = f(S) - f(S0) 
                 
                 if (delta < 0)
@@ -43,7 +43,7 @@ namespace Algorithms.SA
                     }
                     else
                     {
-                        //reject S   
+                       
                     }
 
                 }
@@ -56,14 +56,14 @@ namespace Algorithms.SA
         {
             Random random = new Random();
             int randomNumber = random.Next(4) + 1;
+            
             Solution temporarySolution = new Solution(solution.BusTours, solution.ClusterList);
-            return TwoPointMove(temporarySolution, cluster);
-
+            //return TwoPointMove(temporarySolution, cluster);
             switch (randomNumber)
             {
-                //case 1: return OnePointMove(temporarySolution, cluster, instanca);
-                //case 2: return TwoPointMove(temporarySolution, cluster);//
-                //case 3: return TwoOptMove(temporarySolution, cluster); //petlja infiniti
+                case 1: return OnePointMove(temporarySolution, cluster, instanca);
+                case 2: return TwoPointMove(temporarySolution, cluster);//
+                case 3: return TwoOptMove(temporarySolution, cluster); //petlja infiniti
                 case 4: return CrossExchange(temporarySolution, cluster);//problem s feasible rjesenjem i infiniti petljom
                 default: return temporarySolution;
             }
@@ -267,24 +267,6 @@ namespace Algorithms.SA
             else
                 return b;
         }
-        /*
-        public static Solution InitialSolution(List<Cluster> resultCluster)
-        {
-            Solution initialSolution = new Solution();
-            List<int> singleBusRoute = new List<int>();
-            int leftSpaceInBus;
-            //initialSolution.
-            //resultCluster. 
-            while (resultCluster.Count > 0)
-            {
-                leftSpaceInBus = 25;
-                //singleBusRoute.Add(resultCluster.Where());
-                //initialSolution.busTours.Add();
-                
-            }
-            
-            return initialSolution;
-        }
-        */
+        
     }
 }

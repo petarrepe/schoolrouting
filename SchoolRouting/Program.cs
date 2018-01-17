@@ -29,7 +29,7 @@ namespace SchoolRouting
             }
             sw.Stop();
 
-            for (int i = 8; i < instancesList.Count; i++)
+            for (int i = 0; i < instancesList.Count; i++)
             {
                 currentInstance = instancesList[i];
                 instanceNumber = i + 1;
@@ -53,20 +53,15 @@ namespace SchoolRouting
                 Solution initialSolution = InitialSolution.Find(resultCluster, instancesList[i].Capacity);
                 currentSolution = initialSolution;
 
-                //do
-                //{
-
-                Console.WriteLine("aaaa");
+                do
+                {
                     SimulateAnnealing annealing = new SimulateAnnealing();
-                    currentSolution = annealing.StartAnnealing(400, 0.001, 0.8, resultCluster, currentInstance, initialSolution);
-                //} while (isDisposed == false);
-                
-                Console.WriteLine("------------------------------------------");
+                    currentSolution = annealing.StartAnnealing(400, 0.001, 0.999, resultCluster, currentInstance, initialSolution);
+                } while (isDisposed == false);
+
                 //var test = new Algorithms.GurobiExample();
 
                 OutputService.OutputSolution(currentSolution, instanceNumber, "ne", (int)currentInstance.Students);
-
-
             }
         }
 

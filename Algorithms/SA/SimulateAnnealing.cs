@@ -199,7 +199,7 @@ namespace Algorithms.SA
             int randomBusStopIndex1 = random.Next(stationsInRoute); //izaberi prvu random stanicu na random ruti
             int randomBusStopIndex2 = random.Next(stationsInRoute); //izaberi drugu random stanicu na random ruti
 
-            if (randomBusStopIndex1 != randomBusStopIndex2)//provjera da se ne radi o istoj stanici
+            if (randomBusStopIndex1 != randomBusStopIndex2 && stationsInRoute > 2)//provjera da se ne radi o istoj stanici
             {
                 int temp = randomBusStopIndex1;
                 randomBusStopIndex1 = min(temp, randomBusStopIndex2);
@@ -212,7 +212,7 @@ namespace Algorithms.SA
 
                 for (int i = 0; i < stationsInRoute; i++)
                 {
-                    if (i >= randomBusStopIndex1 && i < randomBusStopIndex2)
+                    if (i >= randomBusStopIndex1 && i <= randomBusStopIndex2)
                     {
                         route.Add(solution.BusTours.ElementAt(randomRouteIndex).ElementAt(counter));
                         counter--;

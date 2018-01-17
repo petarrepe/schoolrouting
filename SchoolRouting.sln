@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRouting", "SchoolRout
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithms", "Algorithms\Algorithms.csproj", "{5C6FE3A7-BCE5-45AD-834D-39440D1285AE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SchoolRouting.Test", "SchoolRouting.Test\SchoolRouting.Test.csproj", "{D094DBC0-A0BA-4E77-82EB-51E0FF057683}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5C6FE3A7-BCE5-45AD-834D-39440D1285AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C6FE3A7-BCE5-45AD-834D-39440D1285AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C6FE3A7-BCE5-45AD-834D-39440D1285AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D094DBC0-A0BA-4E77-82EB-51E0FF057683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D094DBC0-A0BA-4E77-82EB-51E0FF057683}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D094DBC0-A0BA-4E77-82EB-51E0FF057683}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D094DBC0-A0BA-4E77-82EB-51E0FF057683}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

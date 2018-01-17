@@ -9,7 +9,7 @@ using Algorithms.SA;
 
 namespace SchoolRouting
 {
-    class Program
+    public class Program
     {
         private static Solution currentSolution;
         private static int instanceNumber;
@@ -18,7 +18,7 @@ namespace SchoolRouting
         private static Timer timerFiveMinutes;
         private static bool isDisposed = false;
 
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             Stopwatch sw = Stopwatch.StartNew();
             List<Instance> instancesList = new List<Instance>();
@@ -62,8 +62,6 @@ namespace SchoolRouting
                 //var test = new Algorithms.GurobiExample();
 
                 OutputService.OutputSolution(currentSolution, instanceNumber, "ne", (int)currentInstance.Students);
-
-
             }
         }
 
@@ -76,6 +74,32 @@ namespace SchoolRouting
         {
             OutputService.OutputSolution(currentSolution, instanceNumber, "5m", (int)currentInstance.Students);
             isDisposed = true;
+        }
+
+        /// <summary>
+        /// Returns cost of best found solution.
+        /// </summary>
+        /// <returns></returns>
+        public static double MainMoq(double temp, double epsilo, double alph, int instanc)
+        {
+            double temperature = temp;
+            double epsilon = epsilo;
+            double alpha = alph;
+            int instance = instanc;
+
+            currentInstance = InputService.Parse(instance);
+
+            var clusterer = new RadiusCluster();
+            var resultCluster = clusterer.Cluster(currentInstance);
+
+            Solution initialSolution = InitialSolution.Find(resultCluster, currentInstance.Capacity);
+            currentSolution = initialSolution;
+
+            SimulateAnnealing annealing = new SimulateAnnealing();
+            currentSolution = annealing.StartAnnealing(temperature, epsilon, alpha, resultCluster, currentInstance, initialSolution);
+
+            return SimulateAnnealing.CostFunction(currentSolution, currentInstance);
+
         }
     }
 }

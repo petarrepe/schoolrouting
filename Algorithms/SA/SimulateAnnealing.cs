@@ -61,7 +61,7 @@ namespace Algorithms.SA
             {
                 case 1: return OnePointMove(solution, cluster, instanca);
                 case 2: return TwoPointMove(solution, cluster);
-                case 3: return TwoOptMove(solution, cluster);
+                case 3: return TwoOptMove(solution, cluster); //ovo vraća rute poput 31 31 31 31 31
                 case 4: return CrossExchange(solution, cluster);
                 default: return solution;
             }
@@ -113,7 +113,7 @@ namespace Algorithms.SA
                     }
                     else
                     {
-                        route2.Add(solution.BusTours.ElementAt(randomRouteIndex1).ElementAt(j));
+                        route2.Add(solution.BusTours.ElementAt(randomRouteIndex1).ElementAt(j));//moguć out of range
                     }
                 }
 

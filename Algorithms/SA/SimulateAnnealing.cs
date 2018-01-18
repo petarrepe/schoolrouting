@@ -55,7 +55,7 @@ namespace Algorithms.SA
         public static Solution Neighbourhood(Solution solution, List<Cluster> cluster, Instance instanca)
         {
             Random random = new Random();
-            int randomNumber = random.Next(4) + 1;
+            int randomNumber = random.Next(3) + 1;
             
             Solution temporarySolution = new Solution(solution.BusTours, solution.ClusterList);
             //return TwoPointMove(temporarySolution, cluster);
@@ -64,7 +64,7 @@ namespace Algorithms.SA
                 case 1: return OnePointMove(temporarySolution, cluster, instanca);
                 case 2: return TwoPointMove(temporarySolution, cluster);//
                 case 3: return TwoOptMove(temporarySolution, cluster); //petlja infiniti
-                case 4: return CrossExchange(temporarySolution, cluster);//problem s feasible rjesenjem i infiniti petljom
+                //case 4: return CrossExchange(temporarySolution, cluster);//problem s feasible rjesenjem i infiniti petljom
                 default: return temporarySolution;
             }
 

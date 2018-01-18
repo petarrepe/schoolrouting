@@ -85,7 +85,7 @@ namespace Algorithms.SA
             int randomRouteIndex2 = random.Next(routesWithMoreThanOneStop.Count); //odaberi drugu random rutu
             if (randomRouteIndex1 < 2 && randomRouteIndex2 < 2)
             {
-                return solution
+                return solution;
             }
             while (randomRouteIndex2 == randomRouteIndex1)
             {

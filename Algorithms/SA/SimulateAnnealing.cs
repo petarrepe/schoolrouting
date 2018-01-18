@@ -13,9 +13,10 @@ namespace Algorithms.SA
             double delta;
             Random random = new Random();
             double xProbability;
-            Solution bestSolution = new Solution(initialSolution);
-            Solution finalSolution = new Solution(initialSolution);
-            Solution nextSolution = new Solution(initialSolution);
+            Solution bestSolution = initialSolution.DeepClone<Solution>();
+            Solution finalSolution = initialSolution.DeepClone<Solution>();
+            Solution nextSolution = initialSolution.DeepClone<Solution>();
+            int numberOfITerations = 0;
 
             while (temperature > epsilon)
             {
@@ -25,6 +26,7 @@ namespace Algorithms.SA
                  if (Solution.IsInfeasible(nextSolution, instance.Capacity) == true)
                  {
                      temperature = alpha * temperature;
+                     numberOfITerations++;
                      continue;
                  }                
                 delta = CostFunction(nextSolution, instance) - CostFunction(bestSolution, instance);//-> delta = f(S) - f(S0) 
@@ -49,6 +51,7 @@ namespace Algorithms.SA
 
                 }
                 temperature = alpha * temperature;//proces hladenja
+                numberOfITerations++;
             }
             return finalSolution;
         }
@@ -57,8 +60,8 @@ namespace Algorithms.SA
         {
             Random random = new Random();
             int randomNumber = random.Next(3) + 1;
-            
-            Solution temporarySolution = new Solution(solution.BusTours, solution.ClusterList);
+
+            Solution temporarySolution = solution.DeepClone<Solution>();
             
             switch (randomNumber)
             {
@@ -69,7 +72,6 @@ namespace Algorithms.SA
                 default: return temporarySolution;
             }
 
-            return temporarySolution;
         }
 
         private static Solution CrossExchange(Solution solution, List<Cluster> cluster)
@@ -224,8 +226,6 @@ namespace Algorithms.SA
                 randomBusStopIndex2 = max(temp, randomBusStopIndex2);
                 int counter = randomBusStopIndex2;
 
-                //provjeriti za manje slucajeve, kad program puca...
-
                 List<int> route = new List<int>();
 
                 for (int i = 0; i < stationsInRoute; i++)
@@ -250,7 +250,6 @@ namespace Algorithms.SA
 
         public static double CostFunction(Solution temporarySolution, Instance instanca)
         {
-            int alpha = 10000;
             int beta = 1;
             double totalSolutionDistance = 0;
             Point schoolCoordinates = instanca.SchoolCoordinates;

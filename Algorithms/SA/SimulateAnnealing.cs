@@ -59,19 +59,17 @@ namespace Algorithms.SA
         public Solution Neighbourhood(Solution solution, List<Cluster> cluster, Instance instanca)
         {
             Random random = new Random();
-            int randomNumber = random.Next(3) + 1;
-
+            int randomNumber = random.Next(4) + 1;
             Solution temporarySolution = solution.DeepClone<Solution>();
             
             switch (randomNumber)
             {
                 case 1: return OnePointMove(temporarySolution, cluster, instanca);
-                case 2: return TwoPointMove(temporarySolution, cluster);//
-                case 3: return TwoOptMove(temporarySolution, cluster); //petlja infiniti
-                case 4: return CrossExchange(temporarySolution, cluster);//problem s feasible rjesenjem i infiniti petljom
+                case 2: return TwoPointMove(temporarySolution, cluster);
+                case 3: return TwoOptMove(temporarySolution, cluster);
+                case 4: return CrossExchange(temporarySolution, cluster);
                 default: return temporarySolution;
             }
-
         }
 
         private static Solution CrossExchange(Solution solution, List<Cluster> cluster)

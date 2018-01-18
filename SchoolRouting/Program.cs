@@ -35,13 +35,13 @@ namespace SchoolRouting
                 instanceNumber = i + 1;
 
                 timerOneMinute = new Timer();
-                timerOneMinute.Interval = 60000 - sw.ElapsedMilliseconds;
+                timerOneMinute.Interval = 300000 - sw.ElapsedMilliseconds;
                 timerOneMinute.AutoReset = false;
                 timerOneMinute.Elapsed += new ElapsedEventHandler(TimerElapsedOneMinute);
                 timerOneMinute.Start();
 
                 timerFiveMinutes = new Timer();
-                timerFiveMinutes.Interval = 300000 - sw.ElapsedMilliseconds;
+                timerFiveMinutes.Interval = 60000 - sw.ElapsedMilliseconds;
                 timerFiveMinutes.AutoReset = false;
                 timerFiveMinutes.Elapsed += new ElapsedEventHandler(TimerElapsedFiveMinutes);
                 timerFiveMinutes.Start();
@@ -61,18 +61,18 @@ namespace SchoolRouting
 
                 //var test = new Algorithms.GurobiExample();
 
-                OutputService.OutputSolution(currentSolution, instanceNumber, "ne", (int)currentInstance.Students);
+                OutputService.OutputSolution(new Solution(currentSolution.BusTours, currentSolution.ClusterList), instanceNumber, "ne", (int)currentInstance.Students);
             }
         }
 
         public static void TimerElapsedOneMinute(object sender, EventArgs e)
         {
-            OutputService.OutputSolution(currentSolution, instanceNumber, "1m", (int)currentInstance.Students);
+            OutputService.OutputSolution(new Solution(currentSolution.BusTours, currentSolution.ClusterList), instanceNumber, "1m", (int)currentInstance.Students);
         }
 
         public static void TimerElapsedFiveMinutes(object sender, EventArgs e)
         {
-            OutputService.OutputSolution(currentSolution, instanceNumber, "5m", (int)currentInstance.Students);
+            OutputService.OutputSolution(new Solution(currentSolution.BusTours, currentSolution.ClusterList), instanceNumber, "5m", (int)currentInstance.Students);
             isDisposed = true;
         }
 

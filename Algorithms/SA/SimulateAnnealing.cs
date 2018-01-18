@@ -18,14 +18,16 @@ namespace Algorithms.SA
             Solution finalSolution = new Solution(initialSolution);
             Solution nextSolution = new Solution(initialSolution);
 
-            //delta = CostFunction(bestSolution, instance);
-
             while (temperature > epsilon)
             {
 
                 nextSolution = Neighbourhood(bestSolution, resultCluster, instance);//->izracunaj susjeda() S od trenutnog S0
 
-                if (Solution.IsInfeasible(nextSolution, instance.Capacity) == true) continue;//
+                if (Solution.IsInfeasible(nextSolution, instance.Capacity) == true)
+                {
+                    temperature = alpha * temperature;
+                    continue;
+                }
 
                 delta = CostFunction(nextSolution, instance) - CostFunction(bestSolution, instance);//-> delta = f(S) - f(S0) 
 
@@ -45,9 +47,8 @@ namespace Algorithms.SA
                     {
 
                     }
-
                 }
-                temperature = alpha * temperature;//proces hladenja
+                temperature = alpha * temperature; //proces hladenja
             }
             return finalSolution;
         }
@@ -58,7 +59,7 @@ namespace Algorithms.SA
             int randomNumber = random.Next(4) + 1;
 
             Solution temporarySolution = new Solution(solution.BusTours, solution.ClusterList);
-            //return TwoPointMove(temporarySolution, cluster);
+
             switch (randomNumber)
             {
                 case 1: return OnePointMove(temporarySolution, cluster, instanca);
@@ -143,13 +144,13 @@ namespace Algorithms.SA
         private static Solution OnePointMove(Solution solution, List<Cluster> cluster, Instance instanca)
         {
             Random random = new Random();
-            int randomRouteIndex = random.Next(solution.BusTours.Count()); //izaberi random rutu
-            if (solution.BusTours.ElementAt(randomRouteIndex).Count() == 0)
+            int randomRouteIndex = random.Next(solution.BusTours.Count); //izaberi random rutu
+            if (solution.BusTours.ElementAt(randomRouteIndex).Count == 0)
             {
                 solution.BusTours.RemoveAt(randomRouteIndex);
                 return solution;
             }
-            int randomBusStopIndex = random.Next(solution.BusTours.ElementAt(randomRouteIndex).Count());//izaberi random index jedne od stanica na random ruti
+            int randomBusStopIndex = random.Next(solution.BusTours.ElementAt(randomRouteIndex).Count);//izaberi random index jedne od stanica na random ruti
             int randomStop = solution.BusTours.ElementAt(randomRouteIndex).ElementAt(randomBusStopIndex);//odabran random ruta i u njoj random stanica
                                                                                                          //int studentsInCluster = solution.ClusterList.ElementAt(randomStop).Count(); //broj studenata na toj stanici koju mijenjamo
 

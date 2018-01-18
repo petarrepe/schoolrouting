@@ -35,13 +35,13 @@ namespace SchoolRouting
                 instanceNumber = i + 1;
 
                 timerOneMinute = new Timer();
-                timerOneMinute.Interval = 300000 - sw.ElapsedMilliseconds;
+                timerOneMinute.Interval = 60000 - sw.ElapsedMilliseconds;
                 timerOneMinute.AutoReset = false;
                 timerOneMinute.Elapsed += new ElapsedEventHandler(TimerElapsedOneMinute);
                 timerOneMinute.Start();
 
                 timerFiveMinutes = new Timer();
-                timerFiveMinutes.Interval = 60000 - sw.ElapsedMilliseconds;
+                timerFiveMinutes.Interval = 300000 - sw.ElapsedMilliseconds;
                 timerFiveMinutes.AutoReset = false;
                 timerFiveMinutes.Elapsed += new ElapsedEventHandler(TimerElapsedFiveMinutes);
                 timerFiveMinutes.Start();

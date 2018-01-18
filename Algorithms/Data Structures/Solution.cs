@@ -3,7 +3,8 @@ using System.Collections.Generic;
 
 namespace Algorithms
 {
-    public class Solution
+    [Serializable]
+    public class Solution : ICloneable
     {
         public List<List<int>> BusTours = new List<List<int>>();
         public List<Cluster> ClusterList = new List<Cluster>();
@@ -40,6 +41,12 @@ namespace Algorithms
                 if (currentCapacity > maxCapacity) return true;
             }
             return false;
+        }
+
+        public object Clone()
+        {
+            var value = new Solution(this.BusTours, this.ClusterList);
+            return value;
         }
     }
 }

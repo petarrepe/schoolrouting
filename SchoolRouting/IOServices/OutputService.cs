@@ -14,7 +14,7 @@ namespace SchoolRouting
             using (FileStream fs = File.Create("res-" + elapsedTime + "-sbr" + instanceNumber + ".txt"))
             {
                 StringBuilder sb = new StringBuilder();
-                foreach (var busRoute in solution.BusTours)
+                foreach (var busRoute in solution.BusTours.ToList())
                 {
                     foreach (var station in busRoute)
                     {

@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Runtime.Serialization.Formatters.Binary;
 using SchoolRouting;
 
 namespace Algorithms
@@ -10,6 +12,16 @@ namespace Algorithms
         public static double EuclidianDistance(this Point firstPoint, Point secondPoint)
         {
             return Math.Sqrt(Math.Pow(firstPoint.X - secondPoint.X, 2) + Math.Pow(secondPoint.Y - firstPoint.Y, 2));
+        }
+        public static T DeepClone<T>(this Solution obj) where T:Solution
+        {
+            using (var ms = new MemoryStream())
+            {
+                var formatter = new BinaryFormatter();
+                formatter.Serialize(ms, obj);
+                ms.Position = 0;
+                return (T)formatter.Deserialize(ms);
+            }
         }
 
         public static void ForEachWithIndex<T>(this IEnumerable<T> enumerable, Action<T, int> handler)

@@ -10,7 +10,6 @@ namespace Algorithms.SA
 
         public Solution StartAnnealing(double temperature, double epsilon, double alpha, List<Cluster> resultCluster, Instance instance, Solution initialSolution)
         {
-
             double delta;
             Random random = new Random();
             double xProbability;
@@ -42,7 +41,6 @@ namespace Algorithms.SA
                     if (xProbability < Math.Exp(-delta / temperature))
                     {
                         bestSolution = nextSolution;//S0 = S;
-                        finalSolution = nextSolution;
                     }
                     else
                     {
@@ -54,7 +52,7 @@ namespace Algorithms.SA
             return finalSolution;
         }
 
-        public static Solution Neighbourhood(Solution solution, List<Cluster> cluster, Instance instanca)
+        public Solution Neighbourhood(Solution solution, List<Cluster> cluster, Instance instanca)
         {
             Random random = new Random();
             int randomNumber = random.Next(4) + 1;
@@ -73,7 +71,7 @@ namespace Algorithms.SA
             return temporarySolution;
         }
 
-        private static Solution CrossExchange(Solution solution, List<Cluster> cluster)
+        private Solution CrossExchange(Solution solution, List<Cluster> cluster)
         {
             var routesWithMoreThanOneStop = solution.BusTours.Where(t => t.Count > 1).ToList();
             if (routesWithMoreThanOneStop.Count < 2)
@@ -142,8 +140,9 @@ namespace Algorithms.SA
             return temporarySolution;
         }
 
-        private static Solution OnePointMove(Solution solution, List<Cluster> cluster, Instance instanca)
+        private Solution OnePointMove(Solution initialSolution, List<Cluster> cluster, Instance instanca)
         {
+            Solution solution = initialSolution.DeepClone<Solution>(); //prilično zanimljiv bug je ovdje bio kojeg bih htio jednom istražiti
             Random random = new Random();
             int randomRouteIndex = random.Next(solution.BusTours.Count); //izaberi random rutu
             if (solution.BusTours.ElementAt(randomRouteIndex).Count == 0)
@@ -160,7 +159,7 @@ namespace Algorithms.SA
             int busCapacity = (int)instanca.Capacity;
             int studentsOnRoute = 0;
 
-            foreach (List<int> route in solution.BusTours)
+            foreach (List<int> route in solution.BusTours.ToList())
             {
                 if (!route.Equals(solution.BusTours.ElementAt(randomRouteIndex)))
                 {
@@ -177,10 +176,17 @@ namespace Algorithms.SA
                     studentsOnRoute = 0;
                 }
             }
-            return solution;
+            if (Solution.IsInfeasible(solution, instanca.Capacity) == true)
+            {
+                return initialSolution;
+            }
+            else
+            {
+                return solution;
+            }
         }
 
-        private static Solution TwoPointMove(Solution solution, List<Cluster> cluster)
+        private Solution TwoPointMove(Solution solution, List<Cluster> cluster)
         {
             Random random = new Random();
             int randomRouteIndex = random.Next(solution.BusTours.Count()); //izaberi random rutu
@@ -202,7 +208,7 @@ namespace Algorithms.SA
             return solution;
         }
 
-        private static Solution TwoOptMove(Solution solution, List<Cluster> cluster)
+        private Solution TwoOptMove(Solution solution, List<Cluster> cluster)
         {
             Random random = new Random();
             int randomRouteIndex = random.Next(solution.BusTours.Count()); //izaberi random rutu

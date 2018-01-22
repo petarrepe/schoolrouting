@@ -12,11 +12,14 @@ namespace SchoolRouting
     public class Program
     {
         private static Solution currentSolution;
+        private static Solution bestSolution;
         private static int instanceNumber;
         private static Instance currentInstance;
         private static Timer timerOneMinute;
         private static Timer timerFiveMinutes;
         private static bool isDisposed = false;
+        private static long numberOfIteration = 0;
+
 
         public static void Main(string[] args)
         {
@@ -57,21 +60,34 @@ namespace SchoolRouting
                 {
                     SimulateAnnealing annealing = new SimulateAnnealing();
                     currentSolution = annealing.StartAnnealing(400, 0.001, 0.999, resultCluster, currentInstance, initialSolution);
+                    if (bestSolution == null ||SimulateAnnealing.CostFunction(currentSolution, currentInstance) <
+                        SimulateAnnealing.CostFunction(bestSolution, currentInstance))
+                    {
+                        bestSolution = currentSolution;
+                    }
+                    numberOfIteration += 12890;
                 } while (isDisposed == false);
+
                 //var test = new Algorithms.GurobiExample();
 
-                OutputService.OutputSolution(new Solution(currentSolution.BusTours, currentSolution.ClusterList), instanceNumber, "ne", (int)currentInstance.Students);
+
+
+
+                OutputService.OutputSolution(new Solution(bestSolution.BusTours, bestSolution.ClusterList), instanceNumber, "ne", (int)currentInstance.Students);
+
             }
         }
 
         public static void TimerElapsedOneMinute(object sender, EventArgs e)
         {
-            OutputService.OutputSolution(new Solution(currentSolution.BusTours, currentSolution.ClusterList), instanceNumber, "1m", (int)currentInstance.Students);
+            OutputService.OutputSolution(new Solution(bestSolution.BusTours, bestSolution.ClusterList), instanceNumber, "1m", (int)currentInstance.Students);
+            Console.WriteLine(numberOfIteration);
         }
 
         public static void TimerElapsedFiveMinutes(object sender, EventArgs e)
         {
-            OutputService.OutputSolution(new Solution(currentSolution.BusTours, currentSolution.ClusterList), instanceNumber, "5m", (int)currentInstance.Students);
+            OutputService.OutputSolution(new Solution(bestSolution.BusTours, bestSolution.ClusterList), instanceNumber, "5m", (int)currentInstance.Students);
+            Console.WriteLine(numberOfIteration);
             isDisposed = true;
         }
 

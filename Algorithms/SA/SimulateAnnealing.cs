@@ -42,7 +42,6 @@ namespace Algorithms.SA
                     if (xProbability < Math.Exp(-delta / temperature))
                     {
                         bestSolution = nextSolution;//S0 = S;
-                        finalSolution = nextSolution;
                     }
                     else
                     {

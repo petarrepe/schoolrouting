@@ -19,18 +19,16 @@ namespace Algorithms.SA
             int numberOfITerations = 0;
 
             while (temperature > epsilon)
-            {
-               
+            {               
                 nextSolution = Neighbourhood(bestSolution, resultCluster, instance);//->izracunaj susjeda() S od trenutnog S0
                 
                  if (Solution.IsInfeasible(nextSolution, instance.Capacity) == true)
                  {
                      temperature = alpha * temperature;
-                     numberOfITerations++;
                      continue;
                  }                
                 delta = CostFunction(nextSolution, instance) - CostFunction(bestSolution, instance);//-> delta = f(S) - f(S0) 
-                
+                numberOfITerations++;
                 if (delta < 0)
                 {
                     bestSolution = nextSolution;//S0 = S;
@@ -51,7 +49,6 @@ namespace Algorithms.SA
 
                 }
                 temperature = alpha * temperature;//proces hladenja
-                numberOfITerations++;
             }
             return finalSolution;
         }
@@ -93,7 +90,7 @@ namespace Algorithms.SA
             }
             int numberOfStopsRoute1 = solution.BusTours.ElementAt(randomRouteIndex1).Count;//broj stanica prve rute
             int numberOfStopsRoute2 = solution.BusTours.ElementAt(randomRouteIndex2).Count; //broj stanica druge rute
-            Solution temporarySolution = new Solution(solution.BusTours, solution.ClusterList);
+            Solution temporarySolution = solution.DeepClone<Solution>();
 
             List<int> firstRoute = new List<int>();
             List<int> secondRoute = new List<int>();

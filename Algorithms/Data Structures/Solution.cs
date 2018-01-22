@@ -8,6 +8,7 @@ namespace Algorithms
     {
         public List<List<int>> BusTours = new List<List<int>>();
         public List<Cluster> ClusterList = new List<Cluster>();
+        
 
         public Solution(List<List<int>> busTours, List<Cluster> clusterList)
         {
@@ -19,6 +20,8 @@ namespace Algorithms
             this.BusTours = solution.BusTours;
             this.ClusterList = solution.ClusterList;
         }
+
+
 
         internal static bool IsInfeasible(Solution solution, double capacity)
         {

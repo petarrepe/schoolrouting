@@ -29,7 +29,7 @@ namespace SchoolRouting
             }
             sw.Stop();
 
-            for (int i = 0; i < instancesList.Count; i++)
+            for (int i = 9; i < instancesList.Count; i++)
             {
                 currentInstance = instancesList[i];
                 instanceNumber = i + 1;
@@ -58,7 +58,6 @@ namespace SchoolRouting
                     SimulateAnnealing annealing = new SimulateAnnealing();
                     currentSolution = annealing.StartAnnealing(400, 0.001, 0.999, resultCluster, currentInstance, initialSolution);
                 } while (isDisposed == false);
-
                 //var test = new Algorithms.GurobiExample();
 
                 OutputService.OutputSolution(new Solution(currentSolution.BusTours, currentSolution.ClusterList), instanceNumber, "ne", (int)currentInstance.Students);
